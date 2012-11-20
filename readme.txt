@@ -36,7 +36,7 @@ If you want to translate the plugin into your language, [contact me](http://remi
 
 == Screenshots ==
 
-none for now.
+1. Add custom fields to your menus
 
 
 == Changelog ==
