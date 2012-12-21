@@ -14,7 +14,7 @@ This is a simple plugin to add custom attributes to WordPress menus.
 
 This is a simple plugin to add custom attributes to WordPress menus. This plugin is a working plugin but should be used as an example to implement your custom menu fields. The creation of this plugin is explained [here](http://wpexplorer.com/adding-custom-attributes-to-wordpress-menus)
 
-If you have suggestions or bugfixes for the plugin, please report them on [my website](https://remicorson.com).
+If you have suggestions or bugfixes for the plugin, please report them on [my website](http://remicorson.com).
 
 **Languages**
 
