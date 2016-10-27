@@ -1,7 +1,7 @@
 <?php
 /**
  *  /!\ This is a copy of Walker_Nav_Menu_Edit class in core
- * 
+ *
  * Create HTML list of nav menu input items.
  *
  * @package WordPress
@@ -15,18 +15,18 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	 *
 	 * @param string $output Passed by reference.
 	 */
-	function start_lvl(&$output) {	
+	function start_lvl(&$output, $depth = 0, $args = Array()) {
 	}
-	
+
 	/**
 	 * @see Walker_Nav_Menu::end_lvl()
 	 * @since 3.0.0
 	 *
 	 * @param string $output Passed by reference.
 	 */
-	function end_lvl(&$output) {
+	function end_lvl(&$output, $depth = 0, $args = Array()) {
 	}
-	
+
 	/**
 	 * @see Walker::start_el()
 	 * @since 3.0.0
@@ -36,13 +36,13 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	 * @param int $depth Depth of menu item. Used for padding.
 	 * @param object $args
 	 */
-	function start_el(&$output, $item, $depth, $args) {
+	function start_el(&$output, $item, $depth = 0, $args = Array(), $id = 0) {
 	    global $_wp_nav_menu_max_depth;
-	   
+
 	    $_wp_nav_menu_max_depth = $depth > $_wp_nav_menu_max_depth ? $depth : $_wp_nav_menu_max_depth;
-	
+
 	    $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
-	
+
 	    ob_start();
 	    $item_id = esc_attr( $item->ID );
 	    $removed_args = array(
@@ -53,7 +53,7 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	        'page-tab',
 	        '_wpnonce',
 	    );
-	
+
 	    $original_title = '';
 	    if ( 'taxonomy' == $item->type ) {
 	        $original_title = get_term_field( 'name', $item->object_id, $item->object, 'raw' );
@@ -63,15 +63,15 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	        $original_object = get_post( $item->object_id );
 	        $original_title = $original_object->post_title;
 	    }
-	
+
 	    $classes = array(
 	        'menu-item menu-item-depth-' . $depth,
 	        'menu-item-' . esc_attr( $item->object ),
 	        'menu-item-edit-' . ( ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) ? 'active' : 'inactive'),
 	    );
-	
+
 	    $title = $item->title;
-	
+
 	    if ( ! empty( $item->_invalid ) ) {
 	        $classes[] = 'menu-item-invalid';
 	        /* translators: %s: title of menu item which is invalid */
@@ -81,9 +81,9 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	        /* translators: %s: title of menu item in draft status */
 	        $title = sprintf( __('%s (Pending)'), $item->title );
 	    }
-	
+
 	    $title = empty( $item->label ) ? $title : $item->label;
-	
+
 	    ?>
 	    <li id="menu-item-<?php echo $item_id; ?>" class="<?php echo implode(' ', $classes ); ?>">
 	        <dl class="menu-item-bar">
@@ -124,7 +124,7 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	                </span>
 	            </dt>
 	        </dl>
-	
+
 	        <div class="menu-item-settings" id="menu-item-settings-<?php echo $item_id; ?>">
 	            <?php if( 'custom' == $item->type ) : ?>
 	                <p class="field-url description description-wide">
@@ -170,10 +170,10 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	                    <textarea id="edit-menu-item-description-<?php echo $item_id; ?>" class="widefat edit-menu-item-description" rows="3" cols="20" name="menu-item-description[<?php echo $item_id; ?>]"><?php echo esc_html( $item->description ); // textarea_escaped ?></textarea>
 	                    <span class="description"><?php _e('The description will be displayed in the menu if the current theme supports it.'); ?></span>
 	                </label>
-	            </p>        
+	            </p>
 	            <?php
 	            /* New fields insertion starts here */
-	            ?>      
+	            ?>
 	            <p class="field-custom description description-wide">
 	                <label for="edit-menu-item-subtitle-<?php echo $item_id; ?>">
 	                    <?php _e( 'Subtitle' ); ?><br />
@@ -202,7 +202,7 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	                ); ?>"><?php _e('Remove'); ?></a> <span class="meta-sep"> | </span> <a class="item-cancel submitcancel" id="cancel-<?php echo $item_id; ?>" href="<?php echo esc_url( add_query_arg( array('edit-menu-item' => $item_id, 'cancel' => time()), remove_query_arg( $removed_args, admin_url( 'nav-menus.php' ) ) ) );
 	                    ?>#menu-item-settings-<?php echo $item_id; ?>"><?php _e('Cancel'); ?></a>
 	            </div>
-	
+
 	            <input class="menu-item-data-db-id" type="hidden" name="menu-item-db-id[<?php echo $item_id; ?>]" value="<?php echo $item_id; ?>" />
 	            <input class="menu-item-data-object-id" type="hidden" name="menu-item-object-id[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->object_id ); ?>" />
 	            <input class="menu-item-data-object" type="hidden" name="menu-item-object[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->object ); ?>" />
@@ -212,7 +212,7 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	        </div><!-- .menu-item-settings-->
 	        <ul class="menu-item-transport"></ul>
 	    <?php
-	    
+
 	    $output .= ob_get_clean();
 
 	    }
