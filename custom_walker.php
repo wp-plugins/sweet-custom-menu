@@ -3,12 +3,12 @@
  * Custom Walker
  *
  * @access      public
- * @since       1.0 
+ * @since       1.0
  * @return      void
 */
 class rc_scm_walker extends Walker_Nav_Menu
 {
-      function start_el(&$output, $item, $depth, $args)
+      function start_el(&$output, $item, $depth = 0, $args = Array(), $id = 0)
       {
            global $wp_query;
            $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
